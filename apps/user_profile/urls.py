@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.user_profile.views import ProfileCreateView, ProfileView
+from apps.user_profile.views import ProfileCreateView, ProfileView, WeightHistoryView, BodyFatPercentageHistoryView, MuscleMassHistoryView
 
 urlpatterns = [
     path('profiles/create/', ProfileCreateView.as_view()),
     path('profiles/<int:profileId>/', ProfileView.as_view()),
+    path('profiles/<int:profileId>/weight_history/', WeightHistoryView.as_view()),
+    path('profiles/<int:profileId>/body_fat_percentage_history/', BodyFatPercentageHistoryView.as_view()),
+    path('profiles/<int:profileId>/muscle_mass/', MuscleMassHistoryView.as_view()),
 ]
