@@ -1,12 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
-import uuid
 from apps.model_utils.models import BaseModel
 
 # プロフィールテーブル (Profile) のモデル
 class Profile(BaseModel):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # ニックネーム
     nickName = models.CharField(max_length=20)
     # ユーザーとプロフィールを1:1で紐づける
@@ -33,3 +30,43 @@ class Profile(BaseModel):
 
     def __str__(self):
         return self.nickName
+
+
+# 以下3つは物理的には別モデルだが、論理的にはプロフィールの一部なので当該ファイルで定義する
+# 体重履歴テーブル (WeightHistory) のモデル
+class WeightHistory(models.Model):
+    # プロフィールと体重履歴を1:Nで紐づける
+    profile = models.ForeignKey(Profile, related_name='weightHistory', on_delete=models.CASCADE)
+    # 体重
+    weight = models.DecimalField(max_digits=5, decimal_places=2)
+    # 記録日
+    date = models.DateField()
+
+    def __str__(self):
+        return f"{self.profile.nickName} - {self.date}"
+
+
+# 体脂肪率履歴テーブル (BodyFatPercentageHistory) のモデル
+class BodyFatPercentageHistory(models.Model):
+    # プロフィールと体脂肪率履歴を1:Nで紐づける
+    profile = models.ForeignKey(Profile, related_name='bodyFatPercentageHistory', on_delete=models.CASCADE)
+    # 体脂肪率
+    bodyFatPercentage = models.DecimalField(max_digits=5, decimal_places=2)
+    # 記録日
+    date = models.DateField()
+
+    def __str__(self):
+        return f"{self.profile.nickName} - {self.date}"
+
+
+# 筋肉量履歴テーブル (MuscleMassHistory) のモデル
+class MuscleMassHistory(models.Model):
+    # プロフィールと筋肉量履歴を1:Nで紐づける
+    profile = models.ForeignKey(Profile, related_name='muscleMassHistory', on_delete=models.CASCADE)
+    # 筋肉量
+    muscleMass = models.DecimalField(max_digits=5, decimal_places=2)
+    # 記録日
+    date = models.DateField()
+
+    def __str__(self):
+        return f"{self.profile.nickName} - {self.date}"

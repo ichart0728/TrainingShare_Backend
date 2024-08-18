@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.user_profile.models import Profile
+from apps.user_profile.models import Profile, WeightHistory, BodyFatPercentageHistory, MuscleMassHistory
 from apps.user.models import User
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -11,3 +11,21 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('id', 'userProfile', 'nickName', 'gender', 'height', 'dateOfBirth')
+
+
+class WeightHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeightHistory
+        fields = ('weight', 'date')
+
+
+class BodyFatPercentageHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BodyFatPercentageHistory
+        fields = ('bodyFatPercentage', 'date')
+
+
+class MuscleMassHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MuscleMassHistory
+        fields = ('muscleMass', 'date')
